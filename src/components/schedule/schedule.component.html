@@ -1,0 +1,46 @@
+
+<div class="space-y-6">
+  <h1 class="text-3xl font-bold text-gray-900 dark:text-white">کلاس‌های پیش رو</h1>
+
+  <div class="p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+    <ol class="relative border-s border-gray-200 dark:border-gray-700">
+      @for (classItem of sortedSchedule(); track classItem.id) {
+        <li class="mb-10 ms-6">
+          <span class="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -start-3 ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900">
+            <svg class="w-3.5 h-3.5 text-blue-800 dark:text-blue-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
+          </span>
+          <div class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-700 dark:border-gray-600">
+            <div class="items-center justify-between sm:flex">
+              <time class="mb-1 text-xs font-normal text-gray-400 sm:order-last sm:mb-0">ساعت {{ formatClassTime(classItem.dateTime) }}</time>
+              <div class="text-sm font-normal text-gray-500 dark:text-gray-300">{{ formatClassDate(classItem.dateTime) }}</div>
+            </div>
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">{{ classItem.courseTitle }}</h3>
+            <p class="text-base font-normal text-gray-600 dark:text-gray-400">{{ classItem.topic }} - استاد: {{ classItem.instructor }}</p>
+            <div class="mt-4 flex flex-col sm:flex-row gap-3">
+              <a [href]="classItem.meetingLink" target="_blank" class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800">
+                ورود به کلاس
+              </a>
+              <button (click)="setReminder(classItem.id)"
+                      [disabled]="classItem.reminderSet"
+                      [class.bg-gray-400]="classItem.reminderSet"
+                      [class.hover:bg-gray-400]="classItem.reminderSet"
+                      [class.cursor-not-allowed]="classItem.reminderSet"
+                      [class.bg-teal-500]="!classItem.reminderSet"
+                      [class.hover:bg-teal-600]="!classItem.reminderSet"
+                      class="inline-flex items-center px-4 py-2 text-sm font-medium text-white rounded-lg focus:ring-4 focus:ring-teal-300 dark:focus:ring-teal-800">
+                <svg class="w-4 h-4 me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z"></path></svg>
+                @if (classItem.reminderSet) {
+                  یادآور تنظیم شد
+                } @else {
+                  تنظیم یادآور
+                }
+              </button>
+            </div>
+          </div>
+        </li>
+      } @empty {
+        <p class="text-gray-500 dark:text-gray-400 text-center py-10">هیچ کلاس آنلاینی در پیش رو ندارید.</p>
+      }
+    </ol>
+  </div>
+</div>

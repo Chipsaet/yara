@@ -1,0 +1,49 @@
+
+@if (course(); as currentCourse) {
+  <div class="space-y-8">
+    <div>
+      <a routerLink="/courses" class="inline-flex items-center mb-4 text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300">
+        <svg class="w-5 h-5 me-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+        بازگشت به لیست دوره‌ها
+      </a>
+      <div class="relative">
+        <img [src]="currentCourse.imageUrl" [alt]="currentCourse.title" class="w-full h-64 object-cover rounded-lg shadow-lg">
+        <div class="absolute inset-0 bg-black/50 rounded-lg"></div>
+        <div class="absolute bottom-6 start-6">
+          <h1 class="text-4xl font-extrabold text-white">{{ currentCourse.title }}</h1>
+          <p class="mt-2 text-xl text-gray-200">استاد: {{ currentCourse.instructor }}</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+      <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">درباره دوره</h2>
+      <p class="text-gray-600 dark:text-gray-300">{{ currentCourse.description }}</p>
+    </div>
+
+    <div class="p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+      <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">جلسات و ویدیوها</h2>
+      <ul class="space-y-4">
+        @for (lesson of currentCourse.lessons; track lesson.title; let i = $index) {
+          <li class="p-4 border rounded-lg dark:border-gray-700 flex justify-between items-center">
+            <div class="flex items-center">
+              <span class="flex items-center justify-center w-8 h-8 rounded-full bg-blue-100 text-blue-600 font-bold me-4 dark:bg-blue-900 dark:text-blue-300">{{ i + 1 }}</span>
+              <div>
+                <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200">{{ lesson.title }}</h3>
+                <p class="text-sm text-gray-500 dark:text-gray-400">{{ lesson.duration }}</p>
+              </div>
+            </div>
+            <a [href]="lesson.videoUrl" target="_blank" class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-lg hover:bg-green-700 focus:ring-4 focus:ring-green-300 dark:focus:ring-green-800">
+              <svg class="w-5 h-5 me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path></svg>
+              تماشای ویدیو
+            </a>
+          </li>
+        }
+      </ul>
+    </div>
+  </div>
+} @else {
+  <div class="text-center py-20">
+    <p class="text-lg text-gray-500 dark:text-gray-400">دوره مورد نظر یافت نشد.</p>
+  </div>
+}
